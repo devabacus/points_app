@@ -63,7 +63,7 @@ class Timer extends _$Timer {
 
   void finishTimer() {
     ref.read(timerStateProvider.notifier).setTimerState(TimerStateEnum.finish);
-    ref.read(timerFinishCounterProvider.notifier).increment();
+    ref.read(counterProvider.notifier).increment();
     _streamSubscription?.cancel();
     state = _startValue;
   }

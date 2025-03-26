@@ -23,7 +23,7 @@ final timerStateProvider =
     );
 
 typedef _$TimerState = AutoDisposeNotifier<TimerStateEnum>;
-String _$timerHash() => r'9501e5f37f5dbc3a8da8bebff388e279dbbf7098';
+String _$timerHash() => r'8f97f89c10c5625591903906a726569d4bba85f0';
 
 /// See also [Timer].
 @ProviderFor(Timer)

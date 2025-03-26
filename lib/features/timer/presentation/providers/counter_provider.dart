@@ -1,21 +1,19 @@
 import 'package:points_app/features/timer/presentation/providers/storage_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 part 'counter_provider.g.dart';
 
-
 @riverpod
-class TimerFinishCounter extends _$TimerFinishCounter {
+class Counter extends _$Counter {
   @override
   FutureOr<int?> build() async {
     final pref = ref.read(storageServiceProvider.notifier);
-    return pref.getInt('timerCounter') ?? 0;
+    return pref.getInt('timerCounter');
   }
 
   Future<int?> getCounter() async {
     final pref = ref.read(storageServiceProvider.notifier);
-    return pref.getInt('timerCounter') ?? 0;
+    return pref.getInt('timerCounter');
   }
 
   void increment() async {

@@ -20,8 +20,8 @@ class TimerPage extends ConsumerWidget {
     final timerController = ref.read(timerProvider.notifier);
     final timer = ref.watch(timerProvider);
     final timerState = ref.watch(timerStateProvider);
-    final finishCounter = ref.watch(timerFinishCounterProvider);
-    final counterController = ref.read(timerFinishCounterProvider.notifier);
+    final finishCounter = ref.watch(counterProvider);
+    final counterController = ref.read(counterProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(
