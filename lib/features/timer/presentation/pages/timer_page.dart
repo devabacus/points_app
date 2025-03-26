@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:points_app/features/timer/presentation/providers/counter_provider.dart';
 import 'package:points_app/features/timer/presentation/providers/timer_providers.dart';
+import 'package:points_app/features/timer/presentation/widgets/row_buttons.dart';
 import 'package:points_app/features/timer/utils/tick_value_handle.dart';
 
 final List<DropdownMenuEntry<int>> entries =
@@ -18,13 +20,37 @@ class TimerPage extends ConsumerWidget {
     final timerController = ref.read(timerProvider.notifier);
     final timer = ref.watch(timerProvider);
     final timerState = ref.watch(timerStateProvider);
+    final finishCounter = ref.watch(timerFinishCounterProvider);
+    final counterController = ref.read(timerFinishCounterProvider.notifier);
 
     return Scaffold(
-      appBar: AppBar(title: Text("Timer")),
+      appBar: AppBar(
+        title: Text("Timer"),
+        backgroundColor: Colors.blue.shade300,
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                finishCounter.when(
+                  data: (val) => Text(val.toString(), style: style),
+                  error: (_, __) => Text("Ошибка"),
+                  loading: () => CircularProgressIndicator(),
+                ),
+
+                SizedBox(width: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    counterController.resetCounter();
+                  },
+                  child: Text("Сброс"),
+                ),
+              ],
+            ),
+            SizedBox(height: 30),
             DropdownMenu(
               dropdownMenuEntries: entries,
               initialSelection: 30,
@@ -32,37 +58,13 @@ class TimerPage extends ConsumerWidget {
             ),
             SizedBox(height: 30),
             Text(TickStr.format(timer), style: style),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: switch (timerState) {
-                TimerStateEnum.running || TimerStateEnum.resume => [
-                  simpleButton(timerController.pauseTimer, "Пауза"),
-                  SizedBox(width: 20),
-                  simpleButton(timerController.resetTimer, "Сброс"),
-                ],
-                TimerStateEnum.paused => [
-                  simpleButton(timerController.resumeTimer, "Возобновить"),
-                  SizedBox(width: 20),
-                  simpleButton(timerController.resetTimer, "Сброс"),
-                ],
-                TimerStateEnum.reset => [
-                  simpleButton(timerController.startTimer, "Старт"),
-                ],
-                TimerStateEnum.finish => [
-                  simpleButton(timerController.resetTimer, "Сброс"),
-                ],
-              },
+            RowButtons(
+              timerState: timerState,
+              timerController: timerController,
             ),
           ],
         ),
       ),
     );
   }
-}
-
-Widget simpleButton(void Function() onPressed, String btnText) {
-  return ElevatedButton(
-    onPressed: onPressed,
-    child: Text(btnText, style: TextStyle(fontSize: 20)),
-  );
 }

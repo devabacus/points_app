@@ -6,7 +6,7 @@ part of 'timer_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$timerStateHash() => r'51a009ac44c6d7010cb0dadda4263ed1b4db2d78';
+String _$timerStateHash() => r'6b53bbd003291a70e33ae49b459112e29408833e';
 
 /// See also [TimerState].
 @ProviderFor(TimerState)
@@ -23,7 +23,7 @@ final timerStateProvider =
     );
 
 typedef _$TimerState = AutoDisposeNotifier<TimerStateEnum>;
-String _$timerHash() => r'88eb8ed7d14103955ade1e69f0ebc8ba30a72eec';
+String _$timerHash() => r'9501e5f37f5dbc3a8da8bebff388e279dbbf7098';
 
 /// See also [Timer].
 @ProviderFor(Timer)

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:points_app/features/timer/presentation/providers/counter_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'timer_providers.g.dart';
@@ -36,8 +37,8 @@ class Timer extends _$Timer {
   void startTimer() {
     ref.read(timerStateProvider.notifier).setTimerState(TimerStateEnum.running);
     final stream = Stream.periodic(Duration(milliseconds: 1), (val) => val);
-    _streamSubscription = stream.listen((elapsed) {
-      state = _startValue - elapsed;
+    _streamSubscription = stream.listen((_) {
+      state = state - 1;
       if (state == 0) {
         finishTimer();
       }
@@ -62,6 +63,8 @@ class Timer extends _$Timer {
 
   void finishTimer() {
     ref.read(timerStateProvider.notifier).setTimerState(TimerStateEnum.finish);
+    ref.read(timerFinishCounterProvider.notifier).increment();
     _streamSubscription?.cancel();
+    state = _startValue;
   }
 }
