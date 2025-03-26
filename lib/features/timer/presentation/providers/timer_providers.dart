@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:points_app/features/timer/data/models/timer_state.dart';
 import 'package:points_app/features/timer/presentation/providers/counter_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -21,61 +22,64 @@ class TimerState extends _$TimerState {
 
 @riverpod
 class Timer extends _$Timer {
-  int _startValue = 30 * 60;
   StreamSubscription? _streamSubscription;
+   final initialValue = 30*60; 
 
   @override
-  int build() {
-    return _startValue;
+  TimerStateModel build() {
+    return TimerStateModel(
+      remainingSeconds: initialValue,
+      status: TimerStateEnum.reset,
+      initialValue: initialValue,
+    );
   }
 
   void setStartValue(int minutes) {
-    _startValue = minutes;
-    state = _startValue;
+    state = state.copyWith(remainingSeconds: minutes, initialValue: minutes);
   }
 
-  
-  
-
   void startTimer() {
-    ref.read(timerStateProvider.notifier).setTimerState(TimerStateEnum.running);
+    state = state.copyWith(status: TimerStateEnum.running);
 
     final startTime = DateTime.now();
-
-    final stream = Stream.periodic(Duration(milliseconds: 1), (val) => val);
+    final offset = state.initialValue - state.remainingSeconds;
+    final stream = Stream.periodic(Duration(seconds: 1));
 
     _streamSubscription = stream.listen((_) {
-      final elapsedSeconds = DateTime.now().difference(startTime).inSeconds;
-      state = _startValue - elapsedSeconds;
 
-      // state = state - 1;
-      if (state <= 0) {
-        state = 0;
+      final elapsedSeconds = DateTime.now().difference(startTime).inSeconds;
+      final remaining = state.initialValue - elapsedSeconds - offset;
+
+      if (remaining <= 0) {
+        state = state.copyWith(
+          remainingSeconds: 0,
+          status: TimerStateEnum.finish,
+        );
         finishTimer();
+      } else {
+        state = state.copyWith(remainingSeconds: remaining, status: TimerStateEnum.running);
       }
     });
   }
 
   void resetTimer() {
-    ref.read(timerStateProvider.notifier).setTimerState(TimerStateEnum.reset);
-    state = _startValue;
+    state = state.copyWith(initialValue: initialValue, status: TimerStateEnum.reset);
     _streamSubscription?.cancel();
   }
 
   void pauseTimer() {
-    ref.read(timerStateProvider.notifier).setTimerState(TimerStateEnum.paused);
+    state = state.copyWith(status: TimerStateEnum.paused);
     _streamSubscription?.pause();
   }
 
   void resumeTimer() {
-    ref.read(timerStateProvider.notifier).setTimerState(TimerStateEnum.resume);
+    state = state.copyWith(status: TimerStateEnum.resume);
     _streamSubscription?.resume();
   }
 
   void finishTimer() {
-    ref.read(timerStateProvider.notifier).setTimerState(TimerStateEnum.finish);
     ref.read(counterProvider.notifier).increment();
     _streamSubscription?.cancel();
-    state = _startValue;
+    state = state.copyWith(initialValue: initialValue, status: TimerStateEnum.finish);
   }
 }

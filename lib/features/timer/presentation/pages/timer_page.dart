@@ -57,7 +57,7 @@ class TimerPage extends ConsumerWidget {
               onSelected: (val) => timerController.setStartValue(val! * 60),
             ),
             SizedBox(height: 30),
-            Text(TickStr.format(timer), style: style),
+            Text(TickStr.format(timer.remainingSeconds), style: style),
             RowButtons(
               timerState: timerState,
               timerController: timerController,

@@ -23,19 +23,20 @@ final timerStateProvider =
     );
 
 typedef _$TimerState = AutoDisposeNotifier<TimerStateEnum>;
-String _$timerHash() => r'8f97f89c10c5625591903906a726569d4bba85f0';
+String _$timerHash() => r'04559a6fd30974d1fa98fb46d8421d54fe5a9d4c';
 
 /// See also [Timer].
 @ProviderFor(Timer)
-final timerProvider = AutoDisposeNotifierProvider<Timer, int>.internal(
-  Timer.new,
-  name: r'timerProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$timerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
+final timerProvider =
+    AutoDisposeNotifierProvider<Timer, TimerStateModel>.internal(
+      Timer.new,
+      name: r'timerProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product') ? null : _$timerHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
 
-typedef _$Timer = AutoDisposeNotifier<int>;
+typedef _$Timer = AutoDisposeNotifier<TimerStateModel>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
