@@ -34,12 +34,23 @@ class Timer extends _$Timer {
     state = _startValue;
   }
 
+  
+  
+
   void startTimer() {
     ref.read(timerStateProvider.notifier).setTimerState(TimerStateEnum.running);
+
+    final startTime = DateTime.now();
+
     final stream = Stream.periodic(Duration(milliseconds: 1), (val) => val);
+
     _streamSubscription = stream.listen((_) {
-      state = state - 1;
-      if (state == 0) {
+      final elapsedSeconds = DateTime.now().difference(startTime).inSeconds;
+      state = _startValue - elapsedSeconds;
+
+      // state = state - 1;
+      if (state <= 0) {
+        state = 0;
         finishTimer();
       }
     });
