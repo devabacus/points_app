@@ -1,5 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
+// ignore_for_file: unused_field
+
 part of 'database.dart';
 
 // ignore_for_file: type=lint
