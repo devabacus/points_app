@@ -19,8 +19,7 @@ class TimerPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final timerController = ref.read(timerProvider.notifier);
     final timer = ref.watch(timerProvider);
-    final timerState = ref.watch(timerStateProvider);
-    final finishCounter = ref.watch(counterProvider);
+    final counter = ref.watch(counterProvider);
     final counterController = ref.read(counterProvider.notifier);
 
     return Scaffold(
@@ -28,14 +27,14 @@ class TimerPage extends ConsumerWidget {
         title: Text("Timer"),
         backgroundColor: Colors.blue.shade300,
       ),
-      body: Center(
+      body: Center(      
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                finishCounter.when(
+                counter.when(
                   data: (val) => Text(val.toString(), style: style),
                   error: (_, __) => Text("Ошибка"),
                   loading: () => CircularProgressIndicator(),
@@ -59,7 +58,7 @@ class TimerPage extends ConsumerWidget {
             SizedBox(height: 30),
             Text(TickStr.format(timer.remainingSeconds), style: style),
             RowButtons(
-              timerState: timerState,
+              timerState: timer.status,
               timerController: timerController,
             ),
           ],

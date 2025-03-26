@@ -9,18 +9,6 @@ part 'timer_providers.g.dart';
 enum TimerStateEnum { running, paused, resume, finish, reset }
 
 @riverpod
-class TimerState extends _$TimerState {
-  @override
-  TimerStateEnum build() {
-    return TimerStateEnum.reset;
-  }
-
-  void setTimerState(TimerStateEnum stateVal) {
-    state = stateVal;
-  }
-}
-
-@riverpod
 class Timer extends _$Timer {
   StreamSubscription? _streamSubscription;
    final initialValue = 30*60; 

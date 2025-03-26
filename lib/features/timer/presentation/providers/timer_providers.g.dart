@@ -6,24 +6,7 @@ part of 'timer_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$timerStateHash() => r'6b53bbd003291a70e33ae49b459112e29408833e';
-
-/// See also [TimerState].
-@ProviderFor(TimerState)
-final timerStateProvider =
-    AutoDisposeNotifierProvider<TimerState, TimerStateEnum>.internal(
-      TimerState.new,
-      name: r'timerStateProvider',
-      debugGetCreateSourceHash:
-          const bool.fromEnvironment('dart.vm.product')
-              ? null
-              : _$timerStateHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
-
-typedef _$TimerState = AutoDisposeNotifier<TimerStateEnum>;
-String _$timerHash() => r'04559a6fd30974d1fa98fb46d8421d54fe5a9d4c';
+String _$timerHash() => r'c615648222ad294e112ab7d30410036a1d81c8cb';
 
 /// See also [Timer].
 @ProviderFor(Timer)
