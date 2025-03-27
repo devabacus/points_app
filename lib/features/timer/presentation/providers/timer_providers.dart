@@ -29,7 +29,7 @@ class Timer extends _$Timer {
   void startTimer() {
     state = state.copyWith(status: TimerStateEnum.running);
 
-    final stream = Stream.periodic(Duration(seconds: 1));
+    final stream = Stream.periodic(Duration(milliseconds: 1));
 
     _streamSubscription = stream.listen((_) {
 
@@ -37,7 +37,7 @@ class Timer extends _$Timer {
      
       if (remaining <= 0) {
         state = state.copyWith(
-          remainingSeconds: 0,
+          remainingSeconds: initialValue,
           status: TimerStateEnum.finish,
         );
         finishTimer();
