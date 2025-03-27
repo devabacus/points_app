@@ -29,15 +29,12 @@ class Timer extends _$Timer {
   void startTimer() {
     state = state.copyWith(status: TimerStateEnum.running);
 
-    final startTime = DateTime.now();
-    final offset = state.initialValue - state.remainingSeconds;
     final stream = Stream.periodic(Duration(seconds: 1));
 
     _streamSubscription = stream.listen((_) {
 
-      final elapsedSeconds = DateTime.now().difference(startTime).inSeconds;
-      final remaining = state.initialValue - elapsedSeconds - offset;
-
+      final remaining = state.remainingSeconds - 1;
+     
       if (remaining <= 0) {
         state = state.copyWith(
           remainingSeconds: 0,
@@ -51,7 +48,7 @@ class Timer extends _$Timer {
   }
 
   void resetTimer() {
-    state = state.copyWith(initialValue: initialValue, status: TimerStateEnum.reset);
+    state = state.copyWith(remainingSeconds: initialValue, status: TimerStateEnum.reset);
     _streamSubscription?.cancel();
   }
 
