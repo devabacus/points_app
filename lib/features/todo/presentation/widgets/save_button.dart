@@ -5,10 +5,10 @@ import 'package:points_app/features/todo/presentation/pages/add_todo_page.dart';
 import 'package:points_app/features/todo/presentation/providers/shared_pref_provider.dart';
 
 class SaveButton extends ConsumerWidget {
-  TextEditingController textController;
-  TaskStorage saveController;
+  final TextEditingController textController;
+  final TaskStorage saveController;
 
-  SaveButton({
+  const SaveButton({
     required this.textController,
     required this.saveController,
     super.key,
@@ -16,8 +16,6 @@ class SaveButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final name = ref.read(notification.notifier)
-
     final notif = ref.read(notificationServiceProvider.notifier);
 
     return ElevatedButton(

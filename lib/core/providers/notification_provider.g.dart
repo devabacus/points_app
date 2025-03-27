@@ -159,7 +159,7 @@ class _ShowNotificationProviderElement extends AutoDisposeProviderElement<void>
 }
 
 String _$notificationServiceHash() =>
-    r'22e19c6836bb195e80b4d9e8e3744c494dec9f19';
+    r'98a81d11906a267018e96958015c8f6c642c6bd2';
 
 /// See also [NotificationService].
 @ProviderFor(NotificationService)

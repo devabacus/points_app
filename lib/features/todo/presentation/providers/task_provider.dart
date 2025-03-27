@@ -1,3 +1,4 @@
+import 'package:points_app/features/todo/data/models/task_model.dart';
 import 'package:points_app/features/todo/presentation/providers/shared_pref_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -8,12 +9,11 @@ enum TaskStatus { notStarted, inProgress, completed }
 @riverpod
 class Tasker extends _$Tasker {
   @override
-  void build() {
-    return;
+  TaskModel? build() {
+    return null;
   }
 
-  Future<void> saveTask(String val) async {
-    final saver = ref.read(taskStorageProvider.notifier);
-    saver.saveTask(val);
+  void titleUpdate(String title) {
+    state = state?.copyWith(title: title);
   }
 }

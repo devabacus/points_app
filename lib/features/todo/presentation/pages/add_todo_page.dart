@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:points_app/features/todo/presentation/providers/shared_pref_provider.dart';
+import 'package:points_app/features/todo/presentation/providers/task_provider.dart';
 import 'package:points_app/features/todo/presentation/widgets/save_button.dart';
 
 final tStyle = TextStyle(fontSize: 20);
@@ -18,6 +19,9 @@ class _AddTodoPageState extends ConsumerState<AddTodoPage> {
   @override
   Widget build(BuildContext context) {
     final saveController = ref.read(taskStorageProvider.notifier);
+    final task = ref.watch(taskerProvider);
+    final taskController = ref.read(taskerProvider.notifier);
+
 
     return Scaffold(
       appBar: AppBar(title: Text("Add todo")),
@@ -27,16 +31,18 @@ class _AddTodoPageState extends ConsumerState<AddTodoPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Text(task.toString(), style: tStyle,),
+              SizedBox(height: 20),
               TextField(
-                controller: _controller,
-                onChanged: (val) {},
+                onChanged: (val) {
+                    taskController.titleUpdate(val);
+                },
                 decoration: InputDecoration(border: OutlineInputBorder()),
               ),
-              TextField(
-                controller: _controller,
-                onChanged: (val) {},
-                decoration: InputDecoration(border: OutlineInputBorder()),
-              ),
+              // TextField(
+              //   onChanged: (val) {},
+              //   decoration: InputDecoration(border: OutlineInputBorder()),
+              // ),
               SizedBox(height: 20),
               SaveButton(
                 textController: _controller,

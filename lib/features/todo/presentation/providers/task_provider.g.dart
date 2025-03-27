@@ -6,11 +6,11 @@ part of 'task_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$taskerHash() => r'86a4eefe233571c5554896cfa589117c7a81e5a6';
+String _$taskerHash() => r'64c5eeed27827187d11650db7c9137ada741af76';
 
 /// See also [Tasker].
 @ProviderFor(Tasker)
-final taskerProvider = AutoDisposeNotifierProvider<Tasker, void>.internal(
+final taskerProvider = AutoDisposeNotifierProvider<Tasker, TaskModel?>.internal(
   Tasker.new,
   name: r'taskerProvider',
   debugGetCreateSourceHash:
@@ -19,6 +19,6 @@ final taskerProvider = AutoDisposeNotifierProvider<Tasker, void>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef _$Tasker = AutoDisposeNotifier<void>;
+typedef _$Tasker = AutoDisposeNotifier<TaskModel?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
