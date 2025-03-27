@@ -1,3 +1,4 @@
+import '../../presentation/pages/todo_list_page.dart';
 import '../../presentation/pages/add_todo_page.dart';
 import '../../presentation/pages/todo_page.dart';
 import 'todo_routes_constants.dart';
@@ -9,6 +10,18 @@ import 'package:go_router/go_router.dart';
 
 List<RouteBase> getTodoRoutes() {
   return [
+
+    GoRoute(
+      name: TodoRoutes.todoList,
+      path: TodoRoutes.todoListPath,
+      builder: (BuildContext context, state) {
+        
+      
+      return TodoListPage();
+    
+      }
+  ),
+  
 
     GoRoute(
       name: TodoRoutes.addTodo,

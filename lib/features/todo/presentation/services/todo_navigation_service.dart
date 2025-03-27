@@ -6,6 +6,11 @@ import '../routing/todo_routes_constants.dart';
 
 class TodoNavigationService {
 
+    void navigateToTodoList(BuildContext context) {
+      context.goNamed(TodoRoutes.todoList);
+    }
+  
+
     void navigateToAddTodo(BuildContext context) {
       context.goNamed(TodoRoutes.addTodo);
     }

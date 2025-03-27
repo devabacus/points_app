@@ -22,6 +22,5 @@ class TaskStorage extends _$TaskStorage {
     final allTasks = await database.select(database.taskItems).get();;
     print(allTasks);
     return allTasks;
-
   }
 }

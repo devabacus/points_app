@@ -16,5 +16,4 @@ class Tasker extends _$Tasker {
       isCompleted: false,
     );
   }
-
 }
