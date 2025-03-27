@@ -10,10 +10,19 @@ enum TaskStatus { notStarted, inProgress, completed }
 class Tasker extends _$Tasker {
   @override
   TaskModel? build() {
-    return null;
+    return TaskModel(
+      title: 'title',
+      description: 'description',
+      isCompleted: false,
+    );
   }
 
   void titleUpdate(String title) {
-    state = state?.copyWith(title: title);
+    state = state!.copyWith(title: title);
+  }
+
+  void descripUpdate(String descrip){
+      state = state!.copyWith(description: descrip);
+      
   }
 }

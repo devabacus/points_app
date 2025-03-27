@@ -19,8 +19,9 @@ class _AddTodoPageState extends ConsumerState<AddTodoPage> {
   @override
   Widget build(BuildContext context) {
     final saveController = ref.read(taskStorageProvider.notifier);
-    final task = ref.watch(taskerProvider);
+    final taskModel = ref.watch(taskerProvider);
     final taskController = ref.read(taskerProvider.notifier);
+    final taskStorage = ref.watch(taskStorageProvider);
 
 
     return Scaffold(
@@ -31,21 +32,32 @@ class _AddTodoPageState extends ConsumerState<AddTodoPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(task.toString(), style: tStyle,),
+              Text(taskModel.toString(), style: tStyle,),
               SizedBox(height: 20),
+              taskStorage.when(
+                  data: (val) => Text(val, style: tStyle,),
+                  error: (_, __) => Text("Error"),
+                  loading: () => CircularProgressIndicator(),
+              ),
+              SizedBox(height: 20),
+
               TextField(
                 onChanged: (val) {
                     taskController.titleUpdate(val);
                 },
                 decoration: InputDecoration(border: OutlineInputBorder()),
               ),
-              // TextField(
-              //   onChanged: (val) {},
-              //   decoration: InputDecoration(border: OutlineInputBorder()),
-              // ),
+
+              TextField(
+                onChanged: (val) {
+                    taskController.descripUpdate(val);
+                },
+                decoration: InputDecoration(border: OutlineInputBorder()),
+              ),
+
               SizedBox(height: 20),
               SaveButton(
-                textController: _controller,
+                taskModel: taskModel!,
                 saveController: saveController,
               ),
             ],

@@ -1,3 +1,4 @@
+import 'package:points_app/features/todo/data/models/task_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,10 +12,11 @@ class TaskStorage extends _$TaskStorage {
     return pref.getString('lastTask') ?? "Last task";
   }
 
-  Future<void> saveTask(String name) async {
+  Future<void> saveTask(String task) async {
     final pref = await SharedPreferences.getInstance();
-    pref.setString('lastTask', name);
-    state = AsyncData(name);
+
+    pref.setString('lastTask', task);
+    state = AsyncData(task);
   }
 
   Future<String> getLastTask() async {
