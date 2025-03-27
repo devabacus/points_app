@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:points_app/core/database/database.dart';
 import 'package:points_app/core/database/database_provider.dart';
+import 'package:points_app/features/todo/data/datasources/local/task_table.dart';
 import 'package:points_app/features/todo/data/models/task_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -31,6 +32,11 @@ class TaskStorage extends _$TaskStorage {
   Stream<List<TaskItem>> watchAllTasks() {
     final database = ref.read(appDatabaseProvider);
     return database.select(database.taskItems).watch();
+  }
+
+  Future<void> clearAll() async {
+    final database = ref.read(appDatabaseProvider);
+    database.delete(database.taskItems).go();
   }
 }
 

@@ -54,13 +54,12 @@ class _AddTodoPageState extends ConsumerState<AddTodoPage> {
                       isCompleted: false,
                     );
                     saveController.saveTask(task);
+                    formKey.currentState!.reset();
+
                   },
                   child: Text("Cохранить", style: tStyle),
                 ),
-                ElevatedButton(
-                  onPressed: saveController.getAll,
-                  child: Text("Получить все из базы"),
-                ),
+                SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () => context.goNamed(TodoRoutes.todoList),
                   child: Text("Показать все задачи", style: tStyle),

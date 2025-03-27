@@ -14,6 +14,9 @@ class TodoListPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tasks = ref.watch(taskListStreamProvider);
+    final taskStorage = ref.read(taskStorageProvider.notifier);
+
+
     return Scaffold(
       appBar: AppBar(title: Text("Task List")),
       body: Column(
@@ -32,9 +35,24 @@ class TodoListPage extends ConsumerWidget {
             loading: () => CircularProgressIndicator(),
           ),
 
-          ElevatedButton(
-            onPressed: () => context.goNamed(TodoRoutes.addTodo),
-            child: Text("Добавить задачу", style: tStyle),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () => context.goNamed(TodoRoutes.addTodo),
+                child: Text("Добавить задачу", style: tStyle),
+              ),
+
+              ElevatedButton(
+                onPressed: () {
+                  // TODO 
+                    taskStorage.clearAll();
+                    
+
+                },
+                child: Text("Очистить базу данных", style: tStyle),
+              ),
+            ],
           ),
         ],
       ),
