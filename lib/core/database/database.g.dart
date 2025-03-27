@@ -3,12 +3,12 @@
 part of 'database.dart';
 
 // ignore_for_file: type=lint
-class $TaskItemTable extends TaskItem
-    with TableInfo<$TaskItemTable, TaskItemData> {
+class $TaskItemsTable extends TaskItems
+    with TableInfo<$TaskItemsTable, TaskItem> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $TaskItemTable(this.attachedDatabase, [this._alias]);
+  $TaskItemsTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -48,10 +48,10 @@ class $TaskItemTable extends TaskItem
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'task_item';
+  static const String $name = 'task_items';
   @override
   VerificationContext validateIntegrity(
-    Insertable<TaskItemData> instance, {
+    Insertable<TaskItem> instance, {
     bool isInserting = false,
   }) {
     final context = VerificationContext();
@@ -84,9 +84,9 @@ class $TaskItemTable extends TaskItem
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  TaskItemData map(Map<String, dynamic> data, {String? tablePrefix}) {
+  TaskItem map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return TaskItemData(
+    return TaskItem(
       id:
           attachedDatabase.typeMapping.read(
             DriftSqlType.int,
@@ -106,16 +106,16 @@ class $TaskItemTable extends TaskItem
   }
 
   @override
-  $TaskItemTable createAlias(String alias) {
-    return $TaskItemTable(attachedDatabase, alias);
+  $TaskItemsTable createAlias(String alias) {
+    return $TaskItemsTable(attachedDatabase, alias);
   }
 }
 
-class TaskItemData extends DataClass implements Insertable<TaskItemData> {
+class TaskItem extends DataClass implements Insertable<TaskItem> {
   final int id;
   final String title;
   final String description;
-  const TaskItemData({
+  const TaskItem({
     required this.id,
     required this.title,
     required this.description,
@@ -129,20 +129,20 @@ class TaskItemData extends DataClass implements Insertable<TaskItemData> {
     return map;
   }
 
-  TaskItemCompanion toCompanion(bool nullToAbsent) {
-    return TaskItemCompanion(
+  TaskItemsCompanion toCompanion(bool nullToAbsent) {
+    return TaskItemsCompanion(
       id: Value(id),
       title: Value(title),
       description: Value(description),
     );
   }
 
-  factory TaskItemData.fromJson(
+  factory TaskItem.fromJson(
     Map<String, dynamic> json, {
     ValueSerializer? serializer,
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return TaskItemData(
+    return TaskItem(
       id: serializer.fromJson<int>(json['id']),
       title: serializer.fromJson<String>(json['title']),
       description: serializer.fromJson<String>(json['description']),
@@ -158,14 +158,13 @@ class TaskItemData extends DataClass implements Insertable<TaskItemData> {
     };
   }
 
-  TaskItemData copyWith({int? id, String? title, String? description}) =>
-      TaskItemData(
-        id: id ?? this.id,
-        title: title ?? this.title,
-        description: description ?? this.description,
-      );
-  TaskItemData copyWithCompanion(TaskItemCompanion data) {
-    return TaskItemData(
+  TaskItem copyWith({int? id, String? title, String? description}) => TaskItem(
+    id: id ?? this.id,
+    title: title ?? this.title,
+    description: description ?? this.description,
+  );
+  TaskItem copyWithCompanion(TaskItemsCompanion data) {
+    return TaskItem(
       id: data.id.present ? data.id.value : this.id,
       title: data.title.present ? data.title.value : this.title,
       description:
@@ -175,7 +174,7 @@ class TaskItemData extends DataClass implements Insertable<TaskItemData> {
 
   @override
   String toString() {
-    return (StringBuffer('TaskItemData(')
+    return (StringBuffer('TaskItem(')
           ..write('id: $id, ')
           ..write('title: $title, ')
           ..write('description: $description')
@@ -188,28 +187,28 @@ class TaskItemData extends DataClass implements Insertable<TaskItemData> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is TaskItemData &&
+      (other is TaskItem &&
           other.id == this.id &&
           other.title == this.title &&
           other.description == this.description);
 }
 
-class TaskItemCompanion extends UpdateCompanion<TaskItemData> {
+class TaskItemsCompanion extends UpdateCompanion<TaskItem> {
   final Value<int> id;
   final Value<String> title;
   final Value<String> description;
-  const TaskItemCompanion({
+  const TaskItemsCompanion({
     this.id = const Value.absent(),
     this.title = const Value.absent(),
     this.description = const Value.absent(),
   });
-  TaskItemCompanion.insert({
+  TaskItemsCompanion.insert({
     this.id = const Value.absent(),
     required String title,
     required String description,
   }) : title = Value(title),
        description = Value(description);
-  static Insertable<TaskItemData> custom({
+  static Insertable<TaskItem> custom({
     Expression<int>? id,
     Expression<String>? title,
     Expression<String>? description,
@@ -221,12 +220,12 @@ class TaskItemCompanion extends UpdateCompanion<TaskItemData> {
     });
   }
 
-  TaskItemCompanion copyWith({
+  TaskItemsCompanion copyWith({
     Value<int>? id,
     Value<String>? title,
     Value<String>? description,
   }) {
-    return TaskItemCompanion(
+    return TaskItemsCompanion(
       id: id ?? this.id,
       title: title ?? this.title,
       description: description ?? this.description,
@@ -250,7 +249,7 @@ class TaskItemCompanion extends UpdateCompanion<TaskItemData> {
 
   @override
   String toString() {
-    return (StringBuffer('TaskItemCompanion(')
+    return (StringBuffer('TaskItemsCompanion(')
           ..write('id: $id, ')
           ..write('title: $title, ')
           ..write('description: $description')
@@ -262,30 +261,30 @@ class TaskItemCompanion extends UpdateCompanion<TaskItemData> {
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
-  late final $TaskItemTable taskItem = $TaskItemTable(this);
+  late final $TaskItemsTable taskItems = $TaskItemsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [taskItem];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [taskItems];
 }
 
-typedef $$TaskItemTableCreateCompanionBuilder =
-    TaskItemCompanion Function({
+typedef $$TaskItemsTableCreateCompanionBuilder =
+    TaskItemsCompanion Function({
       Value<int> id,
       required String title,
       required String description,
     });
-typedef $$TaskItemTableUpdateCompanionBuilder =
-    TaskItemCompanion Function({
+typedef $$TaskItemsTableUpdateCompanionBuilder =
+    TaskItemsCompanion Function({
       Value<int> id,
       Value<String> title,
       Value<String> description,
     });
 
-class $$TaskItemTableFilterComposer
-    extends Composer<_$AppDatabase, $TaskItemTable> {
-  $$TaskItemTableFilterComposer({
+class $$TaskItemsTableFilterComposer
+    extends Composer<_$AppDatabase, $TaskItemsTable> {
+  $$TaskItemsTableFilterComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -308,9 +307,9 @@ class $$TaskItemTableFilterComposer
   );
 }
 
-class $$TaskItemTableOrderingComposer
-    extends Composer<_$AppDatabase, $TaskItemTable> {
-  $$TaskItemTableOrderingComposer({
+class $$TaskItemsTableOrderingComposer
+    extends Composer<_$AppDatabase, $TaskItemsTable> {
+  $$TaskItemsTableOrderingComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -333,9 +332,9 @@ class $$TaskItemTableOrderingComposer
   );
 }
 
-class $$TaskItemTableAnnotationComposer
-    extends Composer<_$AppDatabase, $TaskItemTable> {
-  $$TaskItemTableAnnotationComposer({
+class $$TaskItemsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $TaskItemsTable> {
+  $$TaskItemsTableAnnotationComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -354,41 +353,38 @@ class $$TaskItemTableAnnotationComposer
   );
 }
 
-class $$TaskItemTableTableManager
+class $$TaskItemsTableTableManager
     extends
         RootTableManager<
           _$AppDatabase,
-          $TaskItemTable,
-          TaskItemData,
-          $$TaskItemTableFilterComposer,
-          $$TaskItemTableOrderingComposer,
-          $$TaskItemTableAnnotationComposer,
-          $$TaskItemTableCreateCompanionBuilder,
-          $$TaskItemTableUpdateCompanionBuilder,
-          (
-            TaskItemData,
-            BaseReferences<_$AppDatabase, $TaskItemTable, TaskItemData>,
-          ),
-          TaskItemData,
+          $TaskItemsTable,
+          TaskItem,
+          $$TaskItemsTableFilterComposer,
+          $$TaskItemsTableOrderingComposer,
+          $$TaskItemsTableAnnotationComposer,
+          $$TaskItemsTableCreateCompanionBuilder,
+          $$TaskItemsTableUpdateCompanionBuilder,
+          (TaskItem, BaseReferences<_$AppDatabase, $TaskItemsTable, TaskItem>),
+          TaskItem,
           PrefetchHooks Function()
         > {
-  $$TaskItemTableTableManager(_$AppDatabase db, $TaskItemTable table)
+  $$TaskItemsTableTableManager(_$AppDatabase db, $TaskItemsTable table)
     : super(
         TableManagerState(
           db: db,
           table: table,
           createFilteringComposer:
-              () => $$TaskItemTableFilterComposer($db: db, $table: table),
+              () => $$TaskItemsTableFilterComposer($db: db, $table: table),
           createOrderingComposer:
-              () => $$TaskItemTableOrderingComposer($db: db, $table: table),
+              () => $$TaskItemsTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer:
-              () => $$TaskItemTableAnnotationComposer($db: db, $table: table),
+              () => $$TaskItemsTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
                 Value<String> title = const Value.absent(),
                 Value<String> description = const Value.absent(),
-              }) => TaskItemCompanion(
+              }) => TaskItemsCompanion(
                 id: id,
                 title: title,
                 description: description,
@@ -398,7 +394,7 @@ class $$TaskItemTableTableManager
                 Value<int> id = const Value.absent(),
                 required String title,
                 required String description,
-              }) => TaskItemCompanion.insert(
+              }) => TaskItemsCompanion.insert(
                 id: id,
                 title: title,
                 description: description,
@@ -418,27 +414,24 @@ class $$TaskItemTableTableManager
       );
 }
 
-typedef $$TaskItemTableProcessedTableManager =
+typedef $$TaskItemsTableProcessedTableManager =
     ProcessedTableManager<
       _$AppDatabase,
-      $TaskItemTable,
-      TaskItemData,
-      $$TaskItemTableFilterComposer,
-      $$TaskItemTableOrderingComposer,
-      $$TaskItemTableAnnotationComposer,
-      $$TaskItemTableCreateCompanionBuilder,
-      $$TaskItemTableUpdateCompanionBuilder,
-      (
-        TaskItemData,
-        BaseReferences<_$AppDatabase, $TaskItemTable, TaskItemData>,
-      ),
-      TaskItemData,
+      $TaskItemsTable,
+      TaskItem,
+      $$TaskItemsTableFilterComposer,
+      $$TaskItemsTableOrderingComposer,
+      $$TaskItemsTableAnnotationComposer,
+      $$TaskItemsTableCreateCompanionBuilder,
+      $$TaskItemsTableUpdateCompanionBuilder,
+      (TaskItem, BaseReferences<_$AppDatabase, $TaskItemsTable, TaskItem>),
+      TaskItem,
       PrefetchHooks Function()
     >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
-  $$TaskItemTableTableManager get taskItem =>
-      $$TaskItemTableTableManager(_db, _db.taskItem);
+  $$TaskItemsTableTableManager get taskItems =>
+      $$TaskItemsTableTableManager(_db, _db.taskItems);
 }

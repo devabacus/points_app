@@ -46,7 +46,7 @@ class _AddTodoPageState extends ConsumerState<AddTodoPage> {
               children: [
                 getTextFiled("Название", titleController),
                 SizedBox(height: 20),
-                getTextFiled("Описание", titleController),
+                getTextFiled("Описание", descripController),
                 SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
@@ -55,10 +55,12 @@ class _AddTodoPageState extends ConsumerState<AddTodoPage> {
                       description: descripController.text,
                       isCompleted: false,
                     );
-                    saveController.saveTask(task.toJson().toString());
+                    saveController.saveTask(task);
                   },
                   child: Text("Cохранить", style: tStyle),
                 ),
+                ElevatedButton(onPressed: 
+                saveController.getAll, child: Text("Получить все из базы"))
               ],
             ),
           ),

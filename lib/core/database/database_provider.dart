@@ -5,7 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 part 'database_provider.g.dart';
 
-@riverpod
+@riverpod 
 AppDatabase appDatabase(Ref ref) {
+  ref.keepAlive();
   return AppDatabase();
 }
+
+

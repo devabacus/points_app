@@ -5,7 +5,7 @@ import 'package:points_app/features/todo/data/datasources/local/task_table.dart'
 
 part 'database.g.dart';
 
-@DriftDatabase(tables: [TaskItem])
+@DriftDatabase(tables: [TaskItems])
 class AppDatabase extends _$AppDatabase {
   AppDatabase([QueryExecutor? excutor]) : super(excutor ?? _openConnection());
 
