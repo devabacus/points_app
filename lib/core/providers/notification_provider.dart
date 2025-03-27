@@ -27,7 +27,7 @@ class NotificationService extends _$NotificationService {
     ).showSnackBar(SnackBar(content: Text(notifText)));
   }
 
-  void showGlobalNotif(String notifText) {
+  void notify(String notifText) {
     rootScaffoldMessengerKey.currentState?.showSnackBar(
       SnackBar(content: Text(notifText)),
     );

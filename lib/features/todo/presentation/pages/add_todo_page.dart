@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:points_app/features/todo/presentation/providers/shared_pref_provider.dart';
-import 'package:points_app/features/todo/presentation/providers/task_provider.dart';
 import 'package:points_app/features/todo/presentation/widgets/save_button.dart';
 
 final tStyle = TextStyle(fontSize: 20);
@@ -30,10 +29,19 @@ class _AddTodoPageState extends ConsumerState<AddTodoPage> {
             children: [
               TextField(
                 controller: _controller,
+                onChanged: (val) {},
+                decoration: InputDecoration(border: OutlineInputBorder()),
+              ),
+              TextField(
+                controller: _controller,
+                onChanged: (val) {},
                 decoration: InputDecoration(border: OutlineInputBorder()),
               ),
               SizedBox(height: 20),
-              SaveButton(taskName: _controller, saveController: saveController),
+              SaveButton(
+                textController: _controller,
+                saveController: saveController,
+              ),
             ],
           ),
         ),
@@ -41,6 +49,3 @@ class _AddTodoPageState extends ConsumerState<AddTodoPage> {
     );
   }
 }
-
-
-

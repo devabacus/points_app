@@ -5,10 +5,14 @@ import 'package:points_app/features/todo/presentation/pages/add_todo_page.dart';
 import 'package:points_app/features/todo/presentation/providers/shared_pref_provider.dart';
 
 class SaveButton extends ConsumerWidget {
-  TextEditingController taskName;
+  TextEditingController textController;
   TaskStorage saveController;
 
-  SaveButton({required this.taskName, required this.saveController, super.key});
+  SaveButton({
+    required this.textController,
+    required this.saveController,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -18,16 +22,15 @@ class SaveButton extends ConsumerWidget {
 
     return ElevatedButton(
       onPressed: () {
-        if (taskName.text.isNotEmpty) {
-          notif.showGlobalNotif('Сохранено');
+        if (textController.text.isNotEmpty) {
+          saveController.saveTask(textController.text);
+
+          notif.notify('Сохранено');
         } else {
-          notif.showGlobalNotif('Введите название');
+          notif.notify('Введите название');
         }
       },
       child: Text("Добавить", style: tStyle),
     );
   }
 }
-
-
-
