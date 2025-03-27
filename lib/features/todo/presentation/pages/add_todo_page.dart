@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:points_app/features/todo/data/models/task_model.dart';
 import 'package:points_app/features/todo/presentation/providers/shared_pref_provider.dart';
 import 'package:points_app/features/todo/presentation/providers/task_provider.dart';
+import 'package:points_app/features/todo/presentation/routing/todo_routes_constants.dart';
 import 'package:points_app/features/todo/presentation/widgets/text_field.dart';
 
 final tStyle = TextStyle(fontSize: 20);
@@ -59,8 +61,14 @@ class _AddTodoPageState extends ConsumerState<AddTodoPage> {
                   },
                   child: Text("Cохранить", style: tStyle),
                 ),
-                ElevatedButton(onPressed: 
-                saveController.getAll, child: Text("Получить все из базы"))
+                ElevatedButton(
+                  onPressed: saveController.getAll,
+                  child: Text("Получить все из базы"),
+                ),
+                ElevatedButton(
+                  onPressed: () => context.goNamed(TodoRoutes.todoList),
+                  child: Text("Показать все задачи", style: tStyle),
+                ),
               ],
             ),
           ),
