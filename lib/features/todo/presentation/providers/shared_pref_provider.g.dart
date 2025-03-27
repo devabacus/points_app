@@ -6,7 +6,7 @@ part of 'shared_pref_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$taskStorageHash() => r'c7eb4619778f99bd2607d4ea819887567c8f7ef4';
+String _$taskStorageHash() => r'958a4be9587a8a274a4da5da049a10d191fe2571';
 
 /// See also [TaskStorage].
 @ProviderFor(TaskStorage)

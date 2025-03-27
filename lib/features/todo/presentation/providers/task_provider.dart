@@ -17,12 +17,4 @@ class Tasker extends _$Tasker {
     );
   }
 
-  void titleUpdate(String title) {
-    state = state!.copyWith(title: title);
-  }
-
-  void descripUpdate(String descrip){
-      state = state!.copyWith(description: descrip);
-      
-  }
 }

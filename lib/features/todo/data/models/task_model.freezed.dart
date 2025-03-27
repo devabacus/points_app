@@ -16,6 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TaskModel {
 
+// required int id,
  String get title; String get description; bool get isCompleted;
 /// Create a copy of TaskModel
 /// with the given fields replaced by the non-null parameter values.
@@ -85,6 +86,7 @@ class _TaskModel implements TaskModel {
   const _TaskModel({required this.title, required this.description, required this.isCompleted});
   factory _TaskModel.fromJson(Map<String, dynamic> json) => _$TaskModelFromJson(json);
 
+// required int id,
 @override final  String title;
 @override final  String description;
 @override final  bool isCompleted;

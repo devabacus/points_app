@@ -9,7 +9,9 @@ class TaskStorage extends _$TaskStorage {
   @override
   Future<String> build() async {
     final pref = await SharedPreferences.getInstance();
+    
     return pref.getString('lastTask') ?? "Last task";
+
   }
 
   Future<void> saveTask(String task) async {

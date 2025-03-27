@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:points_app/features/todo/data/models/task_model.dart';
 import 'package:points_app/features/todo/presentation/providers/shared_pref_provider.dart';
 import 'package:points_app/features/todo/presentation/providers/task_provider.dart';
-import 'package:points_app/features/todo/presentation/widgets/save_button.dart';
+import 'package:points_app/features/todo/presentation/widgets/text_field.dart';
 
 final tStyle = TextStyle(fontSize: 20);
 
@@ -14,7 +15,15 @@ class AddTodoPage extends ConsumerStatefulWidget {
 }
 
 class _AddTodoPageState extends ConsumerState<AddTodoPage> {
-  final TextEditingController _controller = TextEditingController();
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController descripController = TextEditingController();
+
+  @override
+  void dispose() {
+    titleController.dispose();
+    descripController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,44 +32,35 @@ class _AddTodoPageState extends ConsumerState<AddTodoPage> {
     final taskController = ref.read(taskerProvider.notifier);
     final taskStorage = ref.watch(taskStorageProvider);
 
+    final _formKey = GlobalKey<FormState>();
 
     return Scaffold(
       appBar: AppBar(title: Text("Add todo")),
       body: Center(
         child: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.8,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(taskModel.toString(), style: tStyle,),
-              SizedBox(height: 20),
-              taskStorage.when(
-                  data: (val) => Text(val, style: tStyle,),
-                  error: (_, __) => Text("Error"),
-                  loading: () => CircularProgressIndicator(),
-              ),
-              SizedBox(height: 20),
-
-              TextField(
-                onChanged: (val) {
-                    taskController.titleUpdate(val);
-                },
-                decoration: InputDecoration(border: OutlineInputBorder()),
-              ),
-
-              TextField(
-                onChanged: (val) {
-                    taskController.descripUpdate(val);
-                },
-                decoration: InputDecoration(border: OutlineInputBorder()),
-              ),
-
-              SizedBox(height: 20),
-              SaveButton(
-                taskModel: taskModel!,
-                saveController: saveController,
-              ),
-            ],
+          width: MediaQuery.of(context).size.width * 0.5,
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                getTextFiled("Название", titleController),
+                SizedBox(height: 20),
+                getTextFiled("Описание", titleController),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    final task = TaskModel(
+                      title: titleController.text,
+                      description: descripController.text,
+                      isCompleted: false,
+                    );
+                    saveController.saveTask(task.toJson().toString());
+                  },
+                  child: Text("Cохранить", style: tStyle),
+                ),
+              ],
+            ),
           ),
         ),
       ),
