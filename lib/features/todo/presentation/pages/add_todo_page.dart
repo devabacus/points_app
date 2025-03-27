@@ -2,19 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:points_app/features/todo/presentation/providers/shared_pref_provider.dart';
 import 'package:points_app/features/todo/presentation/providers/task_provider.dart';
-
+import 'package:points_app/features/todo/presentation/widgets/save_button.dart';
 
 final tStyle = TextStyle(fontSize: 20);
 
-
-class AddTodoPage extends ConsumerWidget {
+class AddTodoPage extends ConsumerStatefulWidget {
   const AddTodoPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _AddTodoPageState();
+}
 
-    final tasker = ref.read(taskerProvider.notifier);
-    final taskValue = ref.watch(taskerProvider);
+class _AddTodoPageState extends ConsumerState<AddTodoPage> {
+  final TextEditingController _controller = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    final saveController = ref.read(taskStorageProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(title: Text("Add todo")),
@@ -24,16 +28,12 @@ class AddTodoPage extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(taskValue, style: tStyle,),
               TextField(
-                onChanged: (val) => tasker.addTask(val),
+                controller: _controller,
                 decoration: InputDecoration(border: OutlineInputBorder()),
               ),
               SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {},
-                child: Text("Добавить", style: tStyle),
-              ),
+              SaveButton(taskName: _controller, saveController: saveController),
             ],
           ),
         ),
@@ -41,3 +41,6 @@ class AddTodoPage extends ConsumerWidget {
     );
   }
 }
+
+
+
