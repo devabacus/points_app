@@ -7,7 +7,15 @@ class AddTodoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Add todo")),
-      body: Center(child: Text("Add todo", style: TextStyle(fontSize: 30))),
+      body: Center(child: Column(
+        children: [
+          TextField(decoration: InputDecoration(border: OutlineInputBorder()),),
+          SizedBox(height: 20,),
+          TextField(decoration: InputDecoration(border: OutlineInputBorder()),),
+          SizedBox(height: 20,),
+          Text("Add todo", style: TextStyle(fontSize: 30)),
+        ],
+      )),
     );
   }
 }
