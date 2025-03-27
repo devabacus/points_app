@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'shared_pref_provider.dart';
+part of 'tasks_saver_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$taskStorageHash() => r'2f7af1be0fd3e501f069e6e26cfc1303610d0b49';
+String _$taskStorageHash() => r'9211489c9f334cbad2ce478b03752283c685c5c0';
 
 /// See also [TaskStorage].
 @ProviderFor(TaskStorage)

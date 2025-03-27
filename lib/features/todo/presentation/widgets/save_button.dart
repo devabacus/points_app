@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:points_app/core/providers/notification_provider.dart';
 import 'package:points_app/features/todo/data/models/task_model.dart';
 import 'package:points_app/features/todo/presentation/pages/add_todo_page.dart';
-import 'package:points_app/features/todo/presentation/providers/shared_pref_provider.dart';
+import 'package:points_app/features/todo/presentation/providers/tasks_saver_provider.dart';
 import 'package:points_app/features/todo/presentation/providers/task_provider.dart';
 
 class SaveButton extends ConsumerWidget {

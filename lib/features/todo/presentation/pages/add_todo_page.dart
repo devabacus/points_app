@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:points_app/features/todo/data/models/task_model.dart';
-import 'package:points_app/features/todo/presentation/providers/shared_pref_provider.dart';
-import 'package:points_app/features/todo/presentation/providers/task_provider.dart';
+import 'package:points_app/features/todo/presentation/providers/tasks_saver_provider.dart';
 import 'package:points_app/features/todo/presentation/routing/todo_routes_constants.dart';
 import 'package:points_app/features/todo/presentation/widgets/text_field.dart';
 
@@ -30,11 +29,8 @@ class _AddTodoPageState extends ConsumerState<AddTodoPage> {
   @override
   Widget build(BuildContext context) {
     final saveController = ref.read(taskStorageProvider.notifier);
-    final taskModel = ref.watch(taskerProvider);
-    final taskController = ref.read(taskerProvider.notifier);
-    final taskStorage = ref.watch(taskStorageProvider);
 
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
 
     return Scaffold(
       appBar: AppBar(title: Text("Add todo")),
@@ -42,7 +38,7 @@ class _AddTodoPageState extends ConsumerState<AddTodoPage> {
         child: SizedBox(
           width: MediaQuery.of(context).size.width * 0.5,
           child: Form(
-            key: _formKey,
+            key: formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
