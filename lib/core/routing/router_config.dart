@@ -1,3 +1,4 @@
+
 import '../../features/timer/presentation/routing/timer_routes_constants.dart';
 import '../../features/timer/presentation/routing/timer_router_config.dart';
 import '../../features/home/presentation/routing/home_router_config.dart';
@@ -17,8 +18,9 @@ part 'router_config.g.dart';
 GoRouter appRouter(Ref ref) {
   return GoRouter(
     // observers: [TalkerRouteObserver(log.talker)],
-    initialLocation: TimerRoutes.timerPath,
+    initialLocation: HomeRoutes.homePath,
     routes: [
+			
 			...getTimerRoutes(),
 			...getHomeRoutes(),
         
