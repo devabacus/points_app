@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:points_app/features/timer/presentation/providers/counter_provider.dart';
 import 'package:points_app/features/timer/presentation/providers/timer_providers.dart';
-import 'package:points_app/features/timer/presentation/widgets/row_buttons.dart';
-import 'package:points_app/features/timer/utils/tick_value_handle.dart';
+import 'package:points_app/features/timer/presentation/widgets/counter_display.dart';
+import 'package:points_app/features/timer/presentation/widgets/timer_controls.dart';
+import 'package:points_app/features/timer/presentation/widgets/timer_display.dart';
+import 'package:points_app/features/timer/presentation/widgets/timer_setup.dart';
 
 final List<DropdownMenuEntry<int>> entries =
     [30, 40, 50, 60]
@@ -17,8 +19,8 @@ class TimerPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final timerController = ref.read(timerProvider.notifier);
-    final timer = ref.watch(timerProvider);
+    final timerController = ref.read(timerControllerProvider.notifier);
+    final timer = ref.watch(timerControllerProvider);
     final counter = ref.watch(counterProvider);
     final counterController = ref.read(counterProvider.notifier);
 
@@ -27,37 +29,19 @@ class TimerPage extends ConsumerWidget {
         title: Text("Timer"),
         backgroundColor: Colors.blue.shade300,
       ),
-      body: Center(      
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                counter.when(
-                  data: (val) => Text(val.toString(), style: style),
-                  error: (_, __) => Text("Ошибка"),
-                  loading: () => CircularProgressIndicator(),
-                ),
-
-                SizedBox(width: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    counterController.resetCounter();
-                  },
-                  child: Text("Сброс"),
-                ),
-              ],
+            CounterDisplay(
+              counterController: counterController,
+              counterValue: counter,
             ),
             SizedBox(height: 30),
-            DropdownMenu(
-              dropdownMenuEntries: entries,
-              initialSelection: 30,
-              onSelected: (val) => timerController.setStartValue(val! * 60),
-            ),
+            TimerSetup(timerController: timerController, entries: entries),
             SizedBox(height: 30),
-            Text(TickStr.format(timer.remainingSeconds), style: style),
-            RowButtons(
+            TimerDisplay(timer: timer),
+            TimerControls(
               timerState: timer.status,
               timerController: timerController,
             ),

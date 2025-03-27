@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:points_app/features/timer/presentation/providers/timer_providers.dart';
-import 'package:points_app/features/timer/presentation/widgets/simple_button.dart';
+import 'package:points_app/features/timer/utils/widgets/simple_button.dart';
 
-class RowButtons extends StatelessWidget {
-  const RowButtons({
+class TimerControls extends StatelessWidget {
+  const TimerControls({
     super.key,
     required this.timerState,
     required this.timerController,
   });
 
   final TimerStateEnum timerState;
-  final Timer timerController;
+  final TimerController timerController;
 
   @override
   Widget build(BuildContext context) {

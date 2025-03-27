@@ -1,20 +1,24 @@
 import 'dart:async';
-
 import 'package:points_app/features/timer/data/models/timer_state.dart';
 import 'package:points_app/features/timer/presentation/providers/counter_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
 part 'timer_providers.g.dart';
 
 enum TimerStateEnum { running, paused, resume, finish, reset }
 
 @riverpod
-class Timer extends _$Timer {
+class TimerController extends _$TimerController {
   StreamSubscription? _streamSubscription;
-   final initialValue = 30*60; 
+  final initialValue = 30 * 60;
 
   @override
   TimerStateModel build() {
+
+    ref.onDispose((){
+      _streamSubscription?.cancel();
+
+    });
+
     return TimerStateModel(
       remainingSeconds: initialValue,
       status: TimerStateEnum.reset,
@@ -27,14 +31,14 @@ class Timer extends _$Timer {
   }
 
   void startTimer() {
-    state = state.copyWith(status: TimerStateEnum.running);
+
+    _streamSubscription?.cancel();
 
     final stream = Stream.periodic(Duration(milliseconds: 1));
 
     _streamSubscription = stream.listen((_) {
-
       final remaining = state.remainingSeconds - 1;
-     
+
       if (remaining <= 0) {
         state = state.copyWith(
           remainingSeconds: initialValue,
@@ -42,13 +46,19 @@ class Timer extends _$Timer {
         );
         finishTimer();
       } else {
-        state = state.copyWith(remainingSeconds: remaining, status: TimerStateEnum.running);
+        state = state.copyWith(
+          remainingSeconds: remaining,
+          status: TimerStateEnum.running,
+        );
       }
     });
   }
 
   void resetTimer() {
-    state = state.copyWith(remainingSeconds: initialValue, status: TimerStateEnum.reset);
+    state = state.copyWith(
+      remainingSeconds: initialValue,
+      status: TimerStateEnum.reset,
+    );
     _streamSubscription?.cancel();
   }
 
@@ -65,6 +75,9 @@ class Timer extends _$Timer {
   void finishTimer() {
     ref.read(counterProvider.notifier).increment();
     _streamSubscription?.cancel();
-    state = state.copyWith(initialValue: initialValue, status: TimerStateEnum.finish);
+    state = state.copyWith(
+      remainingSeconds: initialValue,
+      status: TimerStateEnum.finish,
+    );
   }
 }
