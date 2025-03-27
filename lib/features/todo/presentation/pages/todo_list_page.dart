@@ -31,7 +31,12 @@ class TodoListPage extends ConsumerWidget {
                     },
                   ),
                 ),
-            error: (_, __) => Text("Error"),
+            error: (error, stack) {
+                print(error);
+
+                return Text("Error: ${error.toString()}");
+                
+            },
             loading: () => CircularProgressIndicator(),
           ),
 
@@ -47,7 +52,7 @@ class TodoListPage extends ConsumerWidget {
                 onPressed: () {
                   // TODO 
                     taskStorage.clearAll();
-                    
+
 
                 },
                 child: Text("Очистить базу данных", style: tStyle),

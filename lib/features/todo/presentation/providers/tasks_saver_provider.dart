@@ -18,6 +18,7 @@ class TaskStorage extends _$TaskStorage {
       TaskItemsCompanion.insert(
         title: task.title,
         description: task.description,
+        createAt: Value(task.onCreated)
       ),
     );
   }

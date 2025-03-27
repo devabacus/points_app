@@ -46,16 +46,18 @@ class _AddTodoPageState extends ConsumerState<AddTodoPage> {
                 SizedBox(height: 20),
                 getTextFiled("Описание", descripController),
                 SizedBox(height: 20),
+                SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
                     final task = TaskModel(
                       title: titleController.text,
                       description: descripController.text,
                       isCompleted: false,
+                      onCreated: DateTime.now()
                     );
                     saveController.saveTask(task);
                     formKey.currentState!.reset();
-
+          
                   },
                   child: Text("Cохранить", style: tStyle),
                 ),

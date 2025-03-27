@@ -10,6 +10,7 @@ abstract class TaskModel with _$TaskModel {
     required String title,
     required String description,
     required bool isCompleted,
+    required DateTime onCreated,
   }) = _TaskModel;
 
   factory TaskModel.fromJson(Map<String, dynamic> json) =>

@@ -42,8 +42,19 @@ class $TaskItemsTable extends TaskItems
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _createAtMeta = const VerificationMeta(
+    'createAt',
+  );
   @override
-  List<GeneratedColumn> get $columns => [id, title, description];
+  late final GeneratedColumn<DateTime> createAt = GeneratedColumn<DateTime>(
+    'create_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, title, description, createAt];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -78,6 +89,12 @@ class $TaskItemsTable extends TaskItems
     } else if (isInserting) {
       context.missing(_descriptionMeta);
     }
+    if (data.containsKey('create_at')) {
+      context.handle(
+        _createAtMeta,
+        createAt.isAcceptableOrUnknown(data['create_at']!, _createAtMeta),
+      );
+    }
     return context;
   }
 
@@ -102,6 +119,10 @@ class $TaskItemsTable extends TaskItems
             DriftSqlType.string,
             data['${effectivePrefix}description'],
           )!,
+      createAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}create_at'],
+      ),
     );
   }
 
@@ -115,10 +136,12 @@ class TaskItem extends DataClass implements Insertable<TaskItem> {
   final int id;
   final String title;
   final String description;
+  final DateTime? createAt;
   const TaskItem({
     required this.id,
     required this.title,
     required this.description,
+    this.createAt,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -126,6 +149,9 @@ class TaskItem extends DataClass implements Insertable<TaskItem> {
     map['id'] = Variable<int>(id);
     map['title'] = Variable<String>(title);
     map['description'] = Variable<String>(description);
+    if (!nullToAbsent || createAt != null) {
+      map['create_at'] = Variable<DateTime>(createAt);
+    }
     return map;
   }
 
@@ -134,6 +160,10 @@ class TaskItem extends DataClass implements Insertable<TaskItem> {
       id: Value(id),
       title: Value(title),
       description: Value(description),
+      createAt:
+          createAt == null && nullToAbsent
+              ? const Value.absent()
+              : Value(createAt),
     );
   }
 
@@ -146,6 +176,7 @@ class TaskItem extends DataClass implements Insertable<TaskItem> {
       id: serializer.fromJson<int>(json['id']),
       title: serializer.fromJson<String>(json['title']),
       description: serializer.fromJson<String>(json['description']),
+      createAt: serializer.fromJson<DateTime?>(json['createAt']),
     );
   }
   @override
@@ -155,13 +186,20 @@ class TaskItem extends DataClass implements Insertable<TaskItem> {
       'id': serializer.toJson<int>(id),
       'title': serializer.toJson<String>(title),
       'description': serializer.toJson<String>(description),
+      'createAt': serializer.toJson<DateTime?>(createAt),
     };
   }
 
-  TaskItem copyWith({int? id, String? title, String? description}) => TaskItem(
+  TaskItem copyWith({
+    int? id,
+    String? title,
+    String? description,
+    Value<DateTime?> createAt = const Value.absent(),
+  }) => TaskItem(
     id: id ?? this.id,
     title: title ?? this.title,
     description: description ?? this.description,
+    createAt: createAt.present ? createAt.value : this.createAt,
   );
   TaskItem copyWithCompanion(TaskItemsCompanion data) {
     return TaskItem(
@@ -169,6 +207,7 @@ class TaskItem extends DataClass implements Insertable<TaskItem> {
       title: data.title.present ? data.title.value : this.title,
       description:
           data.description.present ? data.description.value : this.description,
+      createAt: data.createAt.present ? data.createAt.value : this.createAt,
     );
   }
 
@@ -177,46 +216,53 @@ class TaskItem extends DataClass implements Insertable<TaskItem> {
     return (StringBuffer('TaskItem(')
           ..write('id: $id, ')
           ..write('title: $title, ')
-          ..write('description: $description')
+          ..write('description: $description, ')
+          ..write('createAt: $createAt')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, title, description);
+  int get hashCode => Object.hash(id, title, description, createAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is TaskItem &&
           other.id == this.id &&
           other.title == this.title &&
-          other.description == this.description);
+          other.description == this.description &&
+          other.createAt == this.createAt);
 }
 
 class TaskItemsCompanion extends UpdateCompanion<TaskItem> {
   final Value<int> id;
   final Value<String> title;
   final Value<String> description;
+  final Value<DateTime?> createAt;
   const TaskItemsCompanion({
     this.id = const Value.absent(),
     this.title = const Value.absent(),
     this.description = const Value.absent(),
+    this.createAt = const Value.absent(),
   });
   TaskItemsCompanion.insert({
     this.id = const Value.absent(),
     required String title,
     required String description,
+    this.createAt = const Value.absent(),
   }) : title = Value(title),
        description = Value(description);
   static Insertable<TaskItem> custom({
     Expression<int>? id,
     Expression<String>? title,
     Expression<String>? description,
+    Expression<DateTime>? createAt,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (title != null) 'title': title,
       if (description != null) 'description': description,
+      if (createAt != null) 'create_at': createAt,
     });
   }
 
@@ -224,11 +270,13 @@ class TaskItemsCompanion extends UpdateCompanion<TaskItem> {
     Value<int>? id,
     Value<String>? title,
     Value<String>? description,
+    Value<DateTime?>? createAt,
   }) {
     return TaskItemsCompanion(
       id: id ?? this.id,
       title: title ?? this.title,
       description: description ?? this.description,
+      createAt: createAt ?? this.createAt,
     );
   }
 
@@ -244,6 +292,9 @@ class TaskItemsCompanion extends UpdateCompanion<TaskItem> {
     if (description.present) {
       map['description'] = Variable<String>(description.value);
     }
+    if (createAt.present) {
+      map['create_at'] = Variable<DateTime>(createAt.value);
+    }
     return map;
   }
 
@@ -252,7 +303,8 @@ class TaskItemsCompanion extends UpdateCompanion<TaskItem> {
     return (StringBuffer('TaskItemsCompanion(')
           ..write('id: $id, ')
           ..write('title: $title, ')
-          ..write('description: $description')
+          ..write('description: $description, ')
+          ..write('createAt: $createAt')
           ..write(')'))
         .toString();
   }
@@ -274,12 +326,14 @@ typedef $$TaskItemsTableCreateCompanionBuilder =
       Value<int> id,
       required String title,
       required String description,
+      Value<DateTime?> createAt,
     });
 typedef $$TaskItemsTableUpdateCompanionBuilder =
     TaskItemsCompanion Function({
       Value<int> id,
       Value<String> title,
       Value<String> description,
+      Value<DateTime?> createAt,
     });
 
 class $$TaskItemsTableFilterComposer
@@ -303,6 +357,11 @@ class $$TaskItemsTableFilterComposer
 
   ColumnFilters<String> get description => $composableBuilder(
     column: $table.description,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createAt => $composableBuilder(
+    column: $table.createAt,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -330,6 +389,11 @@ class $$TaskItemsTableOrderingComposer
     column: $table.description,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<DateTime> get createAt => $composableBuilder(
+    column: $table.createAt,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$TaskItemsTableAnnotationComposer
@@ -351,6 +415,9 @@ class $$TaskItemsTableAnnotationComposer
     column: $table.description,
     builder: (column) => column,
   );
+
+  GeneratedColumn<DateTime> get createAt =>
+      $composableBuilder(column: $table.createAt, builder: (column) => column);
 }
 
 class $$TaskItemsTableTableManager
@@ -384,20 +451,24 @@ class $$TaskItemsTableTableManager
                 Value<int> id = const Value.absent(),
                 Value<String> title = const Value.absent(),
                 Value<String> description = const Value.absent(),
+                Value<DateTime?> createAt = const Value.absent(),
               }) => TaskItemsCompanion(
                 id: id,
                 title: title,
                 description: description,
+                createAt: createAt,
               ),
           createCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
                 required String title,
                 required String description,
+                Value<DateTime?> createAt = const Value.absent(),
               }) => TaskItemsCompanion.insert(
                 id: id,
                 title: title,
                 description: description,
+                createAt: createAt,
               ),
           withReferenceMapper:
               (p0) =>
