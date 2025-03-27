@@ -6,7 +6,7 @@ part of 'timer_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$timerControllerHash() => r'73226dd9d2b428c2d5340a1845775c2c11632321';
+String _$timerControllerHash() => r'bfe38fe3e0ccac00de0a9f77272ea5bf05f13c2d';
 
 /// See also [TimerController].
 @ProviderFor(TimerController)
